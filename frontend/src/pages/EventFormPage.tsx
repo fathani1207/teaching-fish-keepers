@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import type { EventInput } from "../types";
 import { createEvent, getEvent, updateEvent } from "../api/events";
+import type { EventInput } from "../types";
 
 function toDatetimeLocal(iso: string): string {
   const d = new Date(iso);
@@ -43,9 +43,7 @@ export default function EventFormPage() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value || null }));
   }
@@ -81,9 +79,7 @@ export default function EventFormPage() {
         </label>
 
         <label className="flex flex-col gap-1">
-          <span className="text-sm font-medium text-gray-700">
-            Description
-          </span>
+          <span className="text-sm font-medium text-gray-700">Description</span>
           <textarea
             name="description"
             value={form.description ?? ""}
@@ -95,9 +91,7 @@ export default function EventFormPage() {
 
         <div className="grid grid-cols-2 gap-4">
           <label className="flex flex-col gap-1">
-            <span className="text-sm font-medium text-gray-700">
-              Date de début *
-            </span>
+            <span className="text-sm font-medium text-gray-700">Date de début *</span>
             <input
               type="datetime-local"
               name="date"
@@ -141,9 +135,7 @@ export default function EventFormPage() {
         </label>
 
         <label className="flex flex-col gap-1">
-          <span className="text-sm font-medium text-gray-700">
-            Participants max
-          </span>
+          <span className="text-sm font-medium text-gray-700">Participants max</span>
           <input
             type="number"
             name="max_participants"
@@ -151,9 +143,7 @@ export default function EventFormPage() {
             onChange={(e) =>
               setForm((prev) => ({
                 ...prev,
-                max_participants: e.target.value
-                  ? Number(e.target.value)
-                  : null,
+                max_participants: e.target.value ? Number(e.target.value) : null,
               }))
             }
             className="border border-gray-300 rounded-lg px-3 py-2"

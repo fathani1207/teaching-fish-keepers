@@ -2,10 +2,7 @@ import { requireAuth } from "../auth/guard.ts";
 import type { EventInput } from "../types.ts";
 import * as repo from "./repository.ts";
 
-export async function handleEventRoutes(
-  req: Request,
-  url: URL,
-): Promise<Response | null> {
+export async function handleEventRoutes(req: Request, url: URL): Promise<Response | null> {
   const { pathname } = url;
   const method = req.method;
 
@@ -22,10 +19,7 @@ export async function handleEventRoutes(
     if (authError) return authError;
     const body = (await req.json()) as EventInput;
     if (!body.title || !body.date) {
-      return Response.json(
-        { error: "title and date are required" },
-        { status: 400 },
-      );
+      return Response.json({ error: "title and date are required" }, { status: 400 });
     }
     const event = await repo.createEvent(body);
     return Response.json(event, { status: 201 });
@@ -51,10 +45,7 @@ export async function handleEventRoutes(
     if (authError) return authError;
     const body = (await req.json()) as EventInput;
     if (!body.title || !body.date) {
-      return Response.json(
-        { error: "title and date are required" },
-        { status: 400 },
-      );
+      return Response.json({ error: "title and date are required" }, { status: 400 });
     }
     const event = await repo.updateEvent(id, body);
     if (!event) {

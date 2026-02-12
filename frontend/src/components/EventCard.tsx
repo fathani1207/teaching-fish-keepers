@@ -23,16 +23,10 @@ export default function EventCard({ event }: { event: Event }) {
       )}
       <h3 className="text-xl font-semibold text-blue-800">{event.title}</h3>
       <p className="text-sm text-blue-600">{formatDate(event.date)}</p>
-      {event.location && (
-        <p className="text-sm text-gray-500">{event.location}</p>
-      )}
-      {event.description && (
-        <p className="text-gray-600 mt-1">{event.description}</p>
-      )}
+      {event.location && <p className="text-sm text-gray-500">{event.location}</p>}
+      {event.description && <p className="text-gray-600 mt-1">{event.description}</p>}
       {event.max_participants && (
-        <p className="text-xs text-gray-400 mt-auto">
-          {event.max_participants} participants max
-        </p>
+        <p className="text-xs text-gray-400 mt-auto">{event.max_participants} participants max</p>
       )}
     </div>
   );

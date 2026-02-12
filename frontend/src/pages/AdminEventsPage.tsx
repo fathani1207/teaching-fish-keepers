@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { deleteEvent, listEvents } from "../api/events";
 import type { Event } from "../types";
-import { listEvents, deleteEvent } from "../api/events";
 
 export default function AdminEventsPage() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
-
+  // biome-ignore lint/correctness/useExhaustiveDependencies: refreshKey is intentionally used to trigger refetch
   useEffect(() => {
     let cancelled = false;
     listEvents(true)
@@ -50,18 +50,10 @@ export default function AdminEventsPage() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-gray-200">
-                <th className="py-3 px-2 text-sm font-semibold text-gray-700">
-                  Titre
-                </th>
-                <th className="py-3 px-2 text-sm font-semibold text-gray-700">
-                  Date
-                </th>
-                <th className="py-3 px-2 text-sm font-semibold text-gray-700">
-                  Lieu
-                </th>
-                <th className="py-3 px-2 text-sm font-semibold text-gray-700">
-                  Actions
-                </th>
+                <th className="py-3 px-2 text-sm font-semibold text-gray-700">Titre</th>
+                <th className="py-3 px-2 text-sm font-semibold text-gray-700">Date</th>
+                <th className="py-3 px-2 text-sm font-semibold text-gray-700">Lieu</th>
+                <th className="py-3 px-2 text-sm font-semibold text-gray-700">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -71,9 +63,7 @@ export default function AdminEventsPage() {
                   <td className="py-3 px-2 text-sm text-gray-600">
                     {new Date(event.date).toLocaleDateString("fr-FR")}
                   </td>
-                  <td className="py-3 px-2 text-sm text-gray-600">
-                    {event.location}
-                  </td>
+                  <td className="py-3 px-2 text-sm text-gray-600">{event.location}</td>
                   <td className="py-3 px-2 flex gap-2">
                     <Link
                       to={`/admin/events/${event.id}/edit`}
@@ -82,6 +72,7 @@ export default function AdminEventsPage() {
                       Modifier
                     </Link>
                     <button
+                      type="button"
                       onClick={() => handleDelete(event.id)}
                       className="text-red-600 hover:underline text-sm"
                     >

@@ -30,10 +30,7 @@ export async function createEvent(input: EventInput): Promise<Event> {
   return rows[0];
 }
 
-export async function updateEvent(
-  id: number,
-  input: EventInput,
-): Promise<Event | undefined> {
+export async function updateEvent(id: number, input: EventInput): Promise<Event | undefined> {
   const rows = await sql<Event[]>`
     UPDATE events SET
       title = ${input.title},
