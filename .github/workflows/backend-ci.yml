@@ -17,7 +17,11 @@ jobs:
       - name: Install bun
         uses: oven-sh/setup-bun@v2
 
-      - name: Install dependencies
+      - name: Install root dependencies
+        run: bun install
+
+      - name: Install backend dependencies
+        working-directory: backend
         run: bun install
 
       - name: Check formatting and linting
