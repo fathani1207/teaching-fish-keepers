@@ -2,7 +2,9 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import * as eventsApi from "../api/events";
 
 const fetchMock = vi.fn();
-vi.stubGlobal("fetch", fetchMock);
+beforeEach(() => {
+  global.fetch = fetchMock as any;
+});
 
 describe("events api", () => {
   beforeEach(() => {
