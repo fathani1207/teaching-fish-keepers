@@ -1,24 +1,24 @@
 {
   "name": "teaching-fish-keepers",
-  "module": "index.ts",
   "type": "module",
   "private": true,
   "devDependencies": {
     "@biomejs/biome": "^2.3.15",
     "@types/bun": "latest",
-    "husky": "^9.1.7",
+    "lefthook": "^2.1.1",
     "lint-staged": "^16.2.7"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "scripts": {
+    "prepare": "lefthook install",
+    "postinstall": "git config --unset-all --local core.hooksPath 2>/dev/null || true && lefthook install",
     "check": "biome check .",
     "check:fix": "biome check --write .",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
     "format": "biome format .",
-    "format:fix": "biome format --write .",
-    "prepare": "husky install"
+    "format:fix": "biome format --write ."
   }
 }

@@ -1,11 +1,10 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import * as authApi from "../api/auth";
 
 const fetchMock = vi.fn();
 beforeEach(() => {
-  global.fetch = fetchMock as any;
+  global.fetch = fetchMock as unknown as typeof fetch;
 });
-
 
 describe("auth api", () => {
   beforeEach(() => {

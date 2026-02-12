@@ -1,9 +1,9 @@
-import { describe, it, expect, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
-import AdminEventsPage from "../pages/AdminEventsPage";
+import { describe, expect, it, vi } from "vitest";
 import * as eventsApi from "../api/events";
+import AdminEventsPage from "../pages/AdminEventsPage";
 
 vi.mock("../api/events");
 
@@ -68,8 +68,6 @@ describe("AdminEventsPage", () => {
     await user.click(await screen.findByRole("button", { name: "Supprimer" }));
 
     expect(deleteEventMock).toHaveBeenCalledWith(1);
-    await waitFor(() =>
-      expect(listEventsMock.mock.calls.length).toBeGreaterThanOrEqual(2),
-    );
+    await waitFor(() => expect(listEventsMock.mock.calls.length).toBeGreaterThanOrEqual(2));
   });
 });

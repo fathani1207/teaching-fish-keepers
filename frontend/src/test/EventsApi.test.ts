@@ -1,9 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import * as eventsApi from "../api/events";
 
 const fetchMock = vi.fn();
 beforeEach(() => {
-  global.fetch = fetchMock as any;
+  global.fetch = fetchMock as unknown as typeof fetch;
 });
 
 describe("events api", () => {
@@ -18,9 +18,7 @@ describe("events api", () => {
       .mockResolvedValueOnce({ ok: false, json: vi.fn() });
 
     await expect(eventsApi.listEvents()).resolves.toEqual([]);
-    await expect(eventsApi.listEvents()).rejects.toThrow(
-      "Failed to fetch events",
-    );
+    await expect(eventsApi.listEvents()).rejects.toThrow("Failed to fetch events");
   });
 
   it("creates event with auth header when token exists", async () => {
