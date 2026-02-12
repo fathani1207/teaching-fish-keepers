@@ -30,10 +30,7 @@ export async function createEvent(input: EventInput): Promise<Event> {
   return res.json();
 }
 
-export async function updateEvent(
-  id: number,
-  input: EventInput,
-): Promise<Event> {
+export async function updateEvent(id: number, input: EventInput): Promise<Event> {
   const res = await fetch(`${BASE}/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json", ...authHeaders() },

@@ -1,6 +1,4 @@
-export async function login(
-  password: string,
-): Promise<{ token: string } | { error: string }> {
+export async function login(password: string): Promise<{ token: string } | { error: string }> {
   const res = await fetch("/api/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -9,9 +7,7 @@ export async function login(
   return res.json();
 }
 
-export async function checkAuth(
-  token: string,
-): Promise<{ authenticated: boolean }> {
+export async function checkAuth(token: string): Promise<{ authenticated: boolean }> {
   const res = await fetch("/api/auth/me", {
     headers: { Authorization: `Bearer ${token}` },
   });

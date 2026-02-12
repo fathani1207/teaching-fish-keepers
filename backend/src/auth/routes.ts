@@ -1,4 +1,4 @@
-import { createSession, validateSession, deleteSession } from "./sessions.ts";
+import { createSession, deleteSession, validateSession } from "./sessions.ts";
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "admin";
 
@@ -8,10 +8,7 @@ export function extractBearerToken(req: Request): string | null {
   return header.slice(7);
 }
 
-export async function handleAuthRoutes(
-  req: Request,
-  url: URL,
-): Promise<Response | null> {
+export async function handleAuthRoutes(req: Request, url: URL): Promise<Response | null> {
   const { pathname } = url;
   const method = req.method;
 

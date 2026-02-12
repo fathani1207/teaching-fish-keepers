@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { type FormEvent, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
@@ -25,15 +25,10 @@ export default function LoginPage() {
 
   return (
     <main className="max-w-sm mx-auto mt-24 px-4">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-        Connexion Admin
-      </h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Connexion Admin</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
             Mot de passe
           </label>
           <input
