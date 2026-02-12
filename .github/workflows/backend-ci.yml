@@ -4,14 +4,11 @@ on:
     branches: [ main ]
     paths:
       - 'backend/**'
+      - 'biome.json'
 
 jobs:
   quality:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: backend
 
     steps:
       - name: Checkout code
@@ -27,6 +24,7 @@ jobs:
         run: bun biome check --error-on-warnings ./backend
 
       - name: Run tests
+        working-directory: backend
         run: bun run test
 
 
