@@ -24,7 +24,7 @@ jobs:
         run: bun install
 
       - name: Check formatting and linting
-        run: bun run lint
+        run: bun biome check --error-on-warnings ./backend
 
       - name: Run tests
         run: bun run test
