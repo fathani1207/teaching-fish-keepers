@@ -4,14 +4,11 @@ on:
     branches: [ main ]
     paths:
       - 'frontend/**'
+      - 'biome.json'
 
 jobs:
   quality:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: frontend
 
     steps:
       - name: Checkout code
@@ -24,7 +21,8 @@ jobs:
         run: bun install
 
       - name: Check formatting and linting
-        run: bun biome check --error-on-warnings ./frontend
+        run: bun biome check --error-on-warnings
 
       - name: Run tests
+        working-directory: frontend
         run: bun test
