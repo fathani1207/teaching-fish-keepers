@@ -1,7 +1,7 @@
-import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import HomePage from "../pages/HomePage";
+import { describe, expect, it, vi } from "vitest";
 import * as eventsApi from "../api/events";
+import HomePage from "../pages/HomePage";
 
 vi.mock("../api/events");
 

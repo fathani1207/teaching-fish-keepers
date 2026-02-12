@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
-import { handleAuthRoutes, extractBearerToken } from "../auth/routes";
-import { createSession, validateSession } from "../auth/sessions";
 import { requireAuth } from "../auth/guard";
+import { extractBearerToken, handleAuthRoutes } from "../auth/routes";
+import { createSession, validateSession } from "../auth/sessions";
 
 function makeJsonRequest(path: string, method: string, body?: unknown, headers?: HeadersInit) {
   const url = new URL(`http://localhost${path}`);
@@ -26,7 +26,8 @@ describe("auth routes", () => {
     expect(res).not.toBeNull();
     expect(res?.status).toBe(200);
 
-    const payload = await res!.json();
+    if (!res) throw new Error("Response is null");
+    const payload = await res.json();
     expect(typeof payload.token).toBe("string");
     expect(payload.token.length).toBeGreaterThan(0);
   });
@@ -43,36 +44,33 @@ describe("auth routes", () => {
 
   test("GET /api/auth/me returns authenticated true with valid token", async () => {
     const token = createSession();
-    const { req, url } = makeJsonRequest(
-      "/api/auth/me",
-      "GET",
-      undefined,
-      { Authorization: `Bearer ${token}` },
-    );
+    const { req, url } = makeJsonRequest("/api/auth/me", "GET", undefined, {
+      Authorization: `Bearer ${token}`,
+    });
 
     const res = await handleAuthRoutes(req, url);
-    const payload = await res!.json();
+    if (!res) throw new Error("Response is null");
+    const payload = await res.json();
     expect(payload.authenticated).toBe(true);
   });
 
   test("GET /api/auth/me returns authenticated false without token", async () => {
     const { req, url } = makeJsonRequest("/api/auth/me", "GET");
     const res = await handleAuthRoutes(req, url);
-    const payload = await res!.json();
+    if (!res) throw new Error("Response is null");
+    const payload = await res.json();
     expect(payload.authenticated).toBe(false);
   });
 
   test("POST /api/auth/logout deletes session", async () => {
     const token = createSession();
-    const { req, url } = makeJsonRequest(
-      "/api/auth/logout",
-      "POST",
-      undefined,
-      { Authorization: `Bearer ${token}` },
-    );
+    const { req, url } = makeJsonRequest("/api/auth/logout", "POST", undefined, {
+      Authorization: `Bearer ${token}`,
+    });
 
     const res = await handleAuthRoutes(req, url);
-    const payload = await res!.json();
+    if (!res) throw new Error("Response is null");
+    const payload = await res.json();
     expect(payload.ok).toBe(true);
     expect(validateSession(token)).toBe(false);
   });

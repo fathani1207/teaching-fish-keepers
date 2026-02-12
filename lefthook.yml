@@ -1,0 +1,6 @@
+pre-commit:
+  parallel: true
+  commands:
+    quality:
+      glob: "*.{js,jsx,ts,tsx,json}"
+      run: bunx lint-staged

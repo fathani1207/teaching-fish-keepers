@@ -1,9 +1,9 @@
-import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter, Routes, Route } from "react-router-dom";
-import EventFormPage from "../pages/EventFormPage";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { describe, expect, it, vi } from "vitest";
 import * as eventsApi from "../api/events";
+import EventFormPage from "../pages/EventFormPage";
 
 vi.mock("../api/events");
 

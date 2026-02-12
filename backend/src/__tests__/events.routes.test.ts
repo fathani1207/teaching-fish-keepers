@@ -1,15 +1,10 @@
 import { beforeAll, describe, expect, test } from "bun:test";
-import { handleEventRoutes } from "../events/routes";
-import * as repo from "../events/repository";
 import { createSession } from "../auth/sessions";
 import { migrate } from "../db/migrate";
+import * as repo from "../events/repository";
+import { handleEventRoutes } from "../events/routes";
 
-function makeJsonRequest(
-  path: string,
-  method: string,
-  body?: unknown,
-  headers?: HeadersInit,
-) {
+function makeJsonRequest(path: string, method: string, body?: unknown, headers?: HeadersInit) {
   const url = new URL(`http://localhost${path}`);
   const req = new Request(url, {
     method,
@@ -59,16 +54,14 @@ describe("event routes", () => {
   test("POST /api/events creates event", async () => {
     const token = createSession();
     const input = makeEventInput();
-    const { req, url } = makeJsonRequest(
-      "/api/events",
-      "POST",
-      input,
-      { Authorization: `Bearer ${token}` },
-    );
+    const { req, url } = makeJsonRequest("/api/events", "POST", input, {
+      Authorization: `Bearer ${token}`,
+    });
     const res = await handleEventRoutes(req, url);
     expect(res).not.toBeNull();
     expect(res?.status).toBe(201);
-    const payload = await res!.json();
+    if (!res) throw new Error("Response is null");
+    const payload = await res.json();
     expect(payload.title).toBe(input.title);
     await repo.deleteEvent(payload.id);
   });
@@ -90,7 +83,8 @@ describe("event routes", () => {
       const res = await handleEventRoutes(req, url);
       expect(res).not.toBeNull();
       expect(res?.status).toBe(200);
-      const payload = await res!.json();
+      if (!res) throw new Error("Response is null");
+      const payload = await res.json();
       const titles = payload.map((event: { title: string }) => event.title);
       expect(titles).toContain(past.title);
       expect(titles).toContain(future.title);
@@ -108,7 +102,8 @@ describe("event routes", () => {
       const res = await handleEventRoutes(req, url);
       expect(res).not.toBeNull();
       expect(res?.status).toBe(200);
-      const payload = await res!.json();
+      if (!res) throw new Error("Response is null");
+      const payload = await res.json();
       expect(payload.id).toBe(created.id);
       expect(payload.title).toBe(created.title);
     } finally {
@@ -128,11 +123,7 @@ describe("event routes", () => {
   });
 
   test("PUT /api/events/:id requires auth", async () => {
-    const { req, url } = makeJsonRequest(
-      "/api/events/123",
-      "PUT",
-      makeEventInput(),
-    );
+    const { req, url } = makeJsonRequest("/api/events/123", "PUT", makeEventInput());
     const res = await handleEventRoutes(req, url);
     expect(res).not.toBeNull();
     expect(res?.status).toBe(401);
@@ -153,12 +144,9 @@ describe("event routes", () => {
 
   test("PUT /api/events/:id returns 404 when not found", async () => {
     const token = createSession();
-    const { req, url } = makeJsonRequest(
-      "/api/events/9999999",
-      "PUT",
-      makeEventInput(),
-      { Authorization: `Bearer ${token}` },
-    );
+    const { req, url } = makeJsonRequest("/api/events/9999999", "PUT", makeEventInput(), {
+      Authorization: `Bearer ${token}`,
+    });
     const res = await handleEventRoutes(req, url);
     expect(res).not.toBeNull();
     expect(res?.status).toBe(404);
@@ -173,12 +161,9 @@ describe("event routes", () => {
 
   test("DELETE /api/events/:id returns 404 when not found", async () => {
     const token = createSession();
-    const { req, url } = makeJsonRequest(
-      "/api/events/9999999",
-      "DELETE",
-      undefined,
-      { Authorization: `Bearer ${token}` },
-    );
+    const { req, url } = makeJsonRequest("/api/events/9999999", "DELETE", undefined, {
+      Authorization: `Bearer ${token}`,
+    });
     const res = await handleEventRoutes(req, url);
     expect(res).not.toBeNull();
     expect(res?.status).toBe(404);
